@@ -1,11 +1,14 @@
 package de.neuland.jade4j;
 
-import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import de.neuland.jade4j.Jade4J.Mode;
 import de.neuland.jade4j.exceptions.JadeCompilerException;
 import de.neuland.jade4j.exceptions.JadeException;
 import de.neuland.jade4j.expression.ExpressionHandler;
-import de.neuland.jade4j.filter.*;
+import de.neuland.jade4j.expression.JexlExpressionHandler;
+import de.neuland.jade4j.filter.CDATAFilter;
+import de.neuland.jade4j.filter.CssFilter;
+import de.neuland.jade4j.filter.Filter;
+import de.neuland.jade4j.filter.JsFilter;
 import de.neuland.jade4j.model.JadeModel;
 import de.neuland.jade4j.parser.Parser;
 import de.neuland.jade4j.parser.node.Node;
@@ -18,6 +21,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 
 public class JadeConfiguration {
 
@@ -33,6 +38,8 @@ public class JadeConfiguration {
     private Map<String, Object> sharedVariables = new HashMap<String, Object>();
     private TemplateLoader templateLoader = new FileTemplateLoader("", "UTF-8");
     protected static final int MAX_ENTRIES = 1000;
+
+    private ExpressionHandler expressionHandler = new JexlExpressionHandler();
 
     public JadeConfiguration() {
         setFilter(FILTER_CDATA, new CDATAFilter());
@@ -68,7 +75,7 @@ public class JadeConfiguration {
             jadeModel.addFilter(filterName, filters.get(filterName));
         }
         jadeModel.putAll(model);
-        template.process(jadeModel, writer);
+        template.process(jadeModel, writer, expressionHandler);
     }
 
     public String renderTemplate(JadeTemplate template, Map<String, Object> model) throws JadeCompilerException {
@@ -129,6 +136,14 @@ public class JadeConfiguration {
         this.mode = mode;
     }
 
+    public void setExpressionHandler(ExpressionHandler expressionHandler) {
+        this.expressionHandler = expressionHandler;
+    }
+
+    public ExpressionHandler getExpressionHandler() {
+        return expressionHandler;
+    }
+
     public boolean templateExists(String url) {
         try {
             return templateLoader.getReader(url) != null;
@@ -143,13 +158,13 @@ public class JadeConfiguration {
 
     public void setCaching(boolean cache) {
         if (cache != this.caching) {
-            ExpressionHandler.setCache(cache);
+            expressionHandler.setCache(cache);
             this.caching = cache;
         }
     }
 
     public void clearCache() {
-        ExpressionHandler.clearCache();
+        expressionHandler.clearCache();
         cache.clear();
     }
 }

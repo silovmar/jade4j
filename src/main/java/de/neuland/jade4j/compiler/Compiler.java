@@ -1,12 +1,13 @@
 package de.neuland.jade4j.compiler;
 
-import java.io.StringWriter;
-import java.io.Writer;
-
 import de.neuland.jade4j.exceptions.JadeCompilerException;
+import de.neuland.jade4j.expression.ExpressionHandler;
 import de.neuland.jade4j.model.JadeModel;
 import de.neuland.jade4j.parser.node.Node;
 import de.neuland.jade4j.template.JadeTemplate;
+
+import java.io.StringWriter;
+import java.io.Writer;
 
 public class Compiler {
 
@@ -18,16 +19,16 @@ public class Compiler {
 		this.rootNode = rootNode;
 	}
 
-	public String compileToString(JadeModel model) throws JadeCompilerException {
+	public String compileToString(JadeModel model, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		StringWriter writer = new StringWriter();
-		compile(model, writer);
+		compile(model, writer, expressionHandler);
 		return writer.toString();
 	}
 
-	public void compile(JadeModel model, Writer w) throws JadeCompilerException {
+	public void compile(JadeModel model, Writer w, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		IndentWriter writer = new IndentWriter(w);
 		writer.setUseIndent(prettyPrint);
-		rootNode.execute(writer, model, template);
+		rootNode.execute(writer, model, template, expressionHandler);
 	}
 
 	public void setPrettyPrint(boolean prettyPrint) {

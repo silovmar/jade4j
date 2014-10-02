@@ -2,6 +2,21 @@ package de.neuland.jade4j.compiler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import de.neuland.jade4j.Jade4J;
+import de.neuland.jade4j.TestFileHelper;
+import de.neuland.jade4j.exceptions.JadeCompilerException;
+import de.neuland.jade4j.exceptions.JadeLexerException;
+import de.neuland.jade4j.expression.JexlExpressionHandler;
+import de.neuland.jade4j.filter.CssFilter;
+import de.neuland.jade4j.filter.JsFilter;
+import de.neuland.jade4j.filter.MarkdownFilter;
+import de.neuland.jade4j.filter.PlainFilter;
+import de.neuland.jade4j.helper.beans.Level2TestBean;
+import de.neuland.jade4j.helper.beans.TestBean;
+import de.neuland.jade4j.model.JadeModel;
+import de.neuland.jade4j.parser.Parser;
+import de.neuland.jade4j.parser.node.Node;
+import de.neuland.jade4j.template.FileTemplateLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,27 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.neuland.jade4j.exceptions.JadeLexerException;
-import de.neuland.jade4j.filter.CssFilter;
-import de.neuland.jade4j.filter.JsFilter;
 import org.apache.commons.io.FileUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import de.neuland.jade4j.Jade4J;
-import de.neuland.jade4j.TestFileHelper;
-import de.neuland.jade4j.exceptions.JadeCompilerException;
-import de.neuland.jade4j.filter.MarkdownFilter;
-import de.neuland.jade4j.filter.PlainFilter;
-import de.neuland.jade4j.helper.beans.Level2TestBean;
-import de.neuland.jade4j.helper.beans.TestBean;
-import de.neuland.jade4j.model.JadeModel;
-import de.neuland.jade4j.parser.Parser;
-import de.neuland.jade4j.parser.node.Node;
-import de.neuland.jade4j.template.FileTemplateLoader;
 
 public class CompilerTest {
 
@@ -330,7 +329,7 @@ public class CompilerTest {
     }
 
     private void tryToRender(String file) throws IOException {
-        Jade4J.render(TestFileHelper.getCompilerResourcePath(file + ".jade"), new HashMap<String, Object>());
+        Jade4J.render(TestFileHelper.getCompilerResourcePath(file + ".jade"), new HashMap<String, Object>(), new JexlExpressionHandler());
     }
 
 
@@ -407,7 +406,7 @@ public class CompilerTest {
         model.addFilter("svg", new PlainFilter());
         String html;
         try {
-            html = compiler.compileToString(model);
+            html = compiler.compileToString(model, new JexlExpressionHandler());
             assertEquals(testName, expected.trim(), html.trim());
         } catch (JadeCompilerException e) {
             e.printStackTrace();

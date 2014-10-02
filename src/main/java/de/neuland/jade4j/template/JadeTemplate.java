@@ -1,12 +1,13 @@
 package de.neuland.jade4j.template;
 
-import java.io.Writer;
-
 import de.neuland.jade4j.Jade4J.Mode;
 import de.neuland.jade4j.compiler.Compiler;
 import de.neuland.jade4j.exceptions.JadeCompilerException;
+import de.neuland.jade4j.expression.ExpressionHandler;
 import de.neuland.jade4j.model.JadeModel;
 import de.neuland.jade4j.parser.node.Node;
+
+import java.io.Writer;
 
 public class JadeTemplate {
 
@@ -16,11 +17,11 @@ public class JadeTemplate {
 	private boolean xml = false;
 	private TemplateLoader templateLoader;
 
-	public void process(JadeModel model, Writer writer) throws JadeCompilerException {
+	public void process(JadeModel model, Writer writer, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		Compiler compiler = new Compiler(rootNode);
 		compiler.setPrettyPrint(prettyPrint);
 		compiler.setTemplate(this);
-		compiler.compile(model, writer);
+		compiler.compile(model, writer, expressionHandler);
 	}
 
 	public boolean isPrettyPrint() {

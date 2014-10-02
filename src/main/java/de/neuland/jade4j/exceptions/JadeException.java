@@ -1,5 +1,9 @@
 package de.neuland.jade4j.exceptions;
 
+import de.neuland.jade4j.Jade4J;
+import de.neuland.jade4j.expression.ExpressionHandler;
+import de.neuland.jade4j.template.TemplateLoader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -8,9 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import de.neuland.jade4j.Jade4J;
-import de.neuland.jade4j.template.TemplateLoader;
 
 public abstract class JadeException extends RuntimeException {
 
@@ -59,10 +60,10 @@ public abstract class JadeException extends RuntimeException {
 	}
 
 	public String toHtmlString() {
-		return toHtmlString(null);
+		return toHtmlString(null, null);
 	}
 
-	public String toHtmlString(String generatedHtml) {
+	public String toHtmlString(String generatedHtml, ExpressionHandler expressionHandler) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("filename", filename);
 		model.put("linenumber", lineNumber);
@@ -75,7 +76,8 @@ public abstract class JadeException extends RuntimeException {
 
 		try {
 			URL url = JadeException.class.getResource("/error.jade");
-			return Jade4J.render(url, model, true);
+            //TODO silovsky: upravit - musi se prevolat existujici expression handler
+			return Jade4J.render(url, model, true, expressionHandler);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

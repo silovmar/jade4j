@@ -1,6 +1,17 @@
 package de.neuland.jade4j.compiler;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import de.neuland.jade4j.TestFileHelper;
+import de.neuland.jade4j.exceptions.JadeCompilerException;
+import de.neuland.jade4j.exceptions.JadeLexerException;
+import de.neuland.jade4j.expression.JexlExpressionHandler;
+import de.neuland.jade4j.filter.MarkdownFilter;
+import de.neuland.jade4j.filter.PlainFilter;
+import de.neuland.jade4j.model.JadeModel;
+import de.neuland.jade4j.parser.Parser;
+import de.neuland.jade4j.parser.node.Node;
+import de.neuland.jade4j.template.FileTemplateLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,16 +24,6 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import de.neuland.jade4j.TestFileHelper;
-import de.neuland.jade4j.exceptions.JadeCompilerException;
-import de.neuland.jade4j.exceptions.JadeLexerException;
-import de.neuland.jade4j.filter.MarkdownFilter;
-import de.neuland.jade4j.filter.PlainFilter;
-import de.neuland.jade4j.model.JadeModel;
-import de.neuland.jade4j.parser.Parser;
-import de.neuland.jade4j.parser.node.Node;
-import de.neuland.jade4j.template.FileTemplateLoader;
 
 public class CompilerIndentationErrorTest {
 
@@ -57,7 +58,7 @@ public class CompilerIndentationErrorTest {
         model.addFilter("plain", new PlainFilter());
         String html;
         try {
-            html = compiler.compileToString(model);
+            html = compiler.compileToString(model, new JexlExpressionHandler());
             assertEquals(testName, expected.trim(), html.trim());
             fail();
         } catch (JadeCompilerException e) {

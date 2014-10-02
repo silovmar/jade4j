@@ -1,12 +1,12 @@
 package de.neuland.jade4j.parser.node;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import de.neuland.jade4j.compiler.IndentWriter;
 import de.neuland.jade4j.exceptions.JadeCompilerException;
+import de.neuland.jade4j.expression.ExpressionHandler;
 import de.neuland.jade4j.model.JadeModel;
 import de.neuland.jade4j.template.JadeTemplate;
+
+import java.util.LinkedList;
 
 public abstract class Node implements Cloneable {
 
@@ -17,7 +17,7 @@ public abstract class Node implements Cloneable {
     protected Node block;
     protected String fileName;
 
-    public abstract void execute(IndentWriter writer, JadeModel model, JadeTemplate template) throws JadeCompilerException;
+    public abstract void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException;
     
     public void setLineNumber(int lineNumber) {
         this.lineNumber = lineNumber;

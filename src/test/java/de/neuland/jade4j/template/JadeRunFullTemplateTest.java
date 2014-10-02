@@ -2,6 +2,12 @@ package de.neuland.jade4j.template;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import de.neuland.jade4j.JadeConfiguration;
+import de.neuland.jade4j.TestFileHelper;
+import de.neuland.jade4j.exceptions.JadeCompilerException;
+import de.neuland.jade4j.expression.JexlExpressionHandler;
+import de.neuland.jade4j.helper.beans.IterableMap;
+import de.neuland.jade4j.model.JadeModel;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,13 +15,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.neuland.jade4j.helper.beans.IterableMap;
 import org.junit.Test;
-
-import de.neuland.jade4j.JadeConfiguration;
-import de.neuland.jade4j.TestFileHelper;
-import de.neuland.jade4j.exceptions.JadeCompilerException;
-import de.neuland.jade4j.model.JadeModel;
 
 public class JadeRunFullTemplateTest {
 
@@ -33,7 +33,7 @@ public class JadeRunFullTemplateTest {
 
         StringWriter out = new StringWriter();
         try {
-            temp.process(model, out);
+            temp.process(model, out, new JexlExpressionHandler());
         } catch (JadeCompilerException e) {
             e.printStackTrace();
             fail();
@@ -58,7 +58,7 @@ public class JadeRunFullTemplateTest {
 
         StringWriter out = new StringWriter();
         try {
-            temp.process(model, out);
+            temp.process(model, out, new JexlExpressionHandler());
         } catch (JadeCompilerException e) {
             e.printStackTrace();
             fail();

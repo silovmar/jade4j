@@ -1,13 +1,13 @@
 package de.neuland.jade4j.parser.node;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-
 import de.neuland.jade4j.compiler.IndentWriter;
 import de.neuland.jade4j.exceptions.ExpressionException;
 import de.neuland.jade4j.exceptions.JadeCompilerException;
 import de.neuland.jade4j.expression.ExpressionHandler;
 import de.neuland.jade4j.model.JadeModel;
 import de.neuland.jade4j.template.JadeTemplate;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ExpressionNode extends Node {
 
@@ -23,9 +23,9 @@ public class ExpressionNode extends Node {
 	}
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		try {
-			Object result = ExpressionHandler.evaluateStringExpression(getValue(), model);
+			Object result = expressionHandler.evaluateStringExpression(getValue(), model);
 			if (result == null || !buffer) {
 				return;
 			}
@@ -37,7 +37,7 @@ public class ExpressionNode extends Node {
 
             if (hasBlock()) {
                 writer.increment();
-                block.execute(writer, model, template);
+                block.execute(writer, model, template, expressionHandler);
                 writer.decrement();
                 writer.newline();
             }

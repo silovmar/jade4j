@@ -2,6 +2,7 @@ package de.neuland.jade4j.expression;
 
 import de.neuland.jade4j.exceptions.ExpressionException;
 import de.neuland.jade4j.model.JadeModel;
+import de.neuland.jade4j.parser.node.Node;
 
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JadeJexlEngine;
@@ -24,12 +25,12 @@ public class JexlExpressionHandler implements ExpressionHandler {
     }
 
     @Override
-    public Boolean evaluateBooleanExpression(String expression, JadeModel model) throws ExpressionException {
-        return BooleanUtil.convert(evaluateExpression(expression, model));
+    public Boolean evaluateBooleanExpression(String expression, JadeModel model, Node callNode) throws ExpressionException {
+        return BooleanUtil.convert(evaluateExpression(expression, model, callNode));
     }
 
     @Override
-    public Object evaluateExpression(String expression, JadeModel model) throws ExpressionException {
+    public Object evaluateExpression(String expression, JadeModel model, Node callNode) throws ExpressionException {
         try {
             Expression e = jexl.createExpression(expression);
             return e.evaluate(new MapContext(model));
@@ -39,9 +40,14 @@ public class JexlExpressionHandler implements ExpressionHandler {
     }
 
     @Override
-    public String evaluateStringExpression(String expression, JadeModel model) throws ExpressionException {
-        Object result = evaluateExpression(expression, model);
+    public String evaluateStringExpression(String expression, JadeModel model, Node callNode) throws ExpressionException {
+        Object result = evaluateExpression(expression, model, callNode);
         return result == null ? "" : result.toString();
+    }
+
+    @Override
+    public String evaluatePureStringExpression(String expression, JadeModel model, Node callNode) throws ExpressionException {
+        return expression;
     }
 
     @Override

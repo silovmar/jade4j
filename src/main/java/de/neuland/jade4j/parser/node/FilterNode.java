@@ -37,7 +37,7 @@ public class FilterNode extends Node {
             result = filter.convert(result, attributes, model);
 		}
 		try {
-			result = Utils.interpolate(result, model, false, expressionHandler);
+			result = Utils.interpolate(result, model, false, expressionHandler, this);
 		} catch (ExpressionException e) {
 			throw new JadeCompilerException(this, template.getTemplateLoader(), e);
 		}

@@ -13,7 +13,7 @@ public class WhileNode extends Node {
 	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		try {
 			model.pushScope();
-            while (expressionHandler.evaluateBooleanExpression(value, model)) {
+            while (expressionHandler.evaluateBooleanExpression(value, model, this)) {
 				block.execute(writer, model, template, expressionHandler);
 			}
 			model.popScope();

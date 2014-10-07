@@ -13,7 +13,7 @@ public class AssigmentNode extends Node {
 	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		Object result;
 		try {
-			result = expressionHandler.evaluateExpression(value, model);
+			result = expressionHandler.evaluateExpression(value, model, this);
 		} catch (ExpressionException e) {
 			throw new JadeCompilerException(this, template.getTemplateLoader(), e);
 		}

@@ -29,7 +29,7 @@ public class CaseNode extends Node {
 	}
 
 	private Boolean checkCondition(JadeModel model, Node caseConditionNode, ExpressionHandler expressionHandler) throws ExpressionException {
-		return expressionHandler.evaluateBooleanExpression(value + " == " + caseConditionNode.getValue(), model);
+		return expressionHandler.evaluateBooleanExpression(value + " == " + caseConditionNode.getValue(), model, this);
 	}
 
 	public void setConditions(List<CaseConditionNode> caseConditionNodes) {

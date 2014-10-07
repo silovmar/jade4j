@@ -1,40 +1,23 @@
-    public JexlExpressionHandler() {
-        this(new JadeJexlEngine());
-        jexl.setCache(MAX_ENTRIES);
-    }
-
-	@Override
-    public String evaluateStringExpression(String expression, JadeModel model) throws ExpressionException {
-	
-	@Override
-    public void setCache(boolean cache) {
-
-    @Override
-    public void clearCache() {
 package de.neuland.jade4j.expression;
 
 import de.neuland.jade4j.exceptions.ExpressionException;
 import de.neuland.jade4j.model.JadeModel;
 
+import org.apache.commons.jexl2.Expression;
+import org.apache.commons.jexl2.JadeJexlEngine;
+import org.apache.commons.jexl2.JexlEngine;
+import org.apache.commons.jexl2.MapContext;
+
 public class JexlExpressionHandler implements ExpressionHandler {
 
-/**
- * TODO silovsky: comment
- *
- * @author silovsky
- */
-public interface ExpressionHandler {
+    private static final int MAX_ENTRIES = 5000;
 
-    Boolean evaluateBooleanExpression(String expression, JadeModel model) throws ExpressionException;
+    private JexlEngine jexl;
 
-	private JexlEngine jexl;
-    Object evaluateExpression(String expression, JadeModel model) throws ExpressionException;
-
-    String evaluateStringExpression(String expression, JadeModel model) throws ExpressionException;
-
-	@Override
-    public Object evaluateExpression(String expression, JadeModel model) throws ExpressionException {
-    void setCache(boolean cache);
+    public JexlExpressionHandler() {
+        this(new JadeJexlEngine());
+        jexl.setCache(MAX_ENTRIES);
+    }
 
     public JexlExpressionHandler(JexlEngine jexl) {
         this.jexl = jexl;
@@ -42,5 +25,32 @@ public interface ExpressionHandler {
 
     @Override
     public Boolean evaluateBooleanExpression(String expression, JadeModel model) throws ExpressionException {
-    void clearCache();
+        return BooleanUtil.convert(evaluateExpression(expression, model));
+    }
+
+    @Override
+    public Object evaluateExpression(String expression, JadeModel model) throws ExpressionException {
+        try {
+            Expression e = jexl.createExpression(expression);
+            return e.evaluate(new MapContext(model));
+        } catch (Exception e) {
+            throw new ExpressionException(expression, e);
+        }
+    }
+
+    @Override
+    public String evaluateStringExpression(String expression, JadeModel model) throws ExpressionException {
+        Object result = evaluateExpression(expression, model);
+        return result == null ? "" : result.toString();
+    }
+
+    @Override
+    public void setCache(boolean cache) {
+        jexl.setCache(cache ? MAX_ENTRIES : 0);
+    }
+
+    @Override
+    public void clearCache() {
+        jexl.clearCache();
+    }
 }

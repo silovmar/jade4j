@@ -12,7 +12,7 @@ public class CommentNode extends Node {
 	private boolean buffered;
 	
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		if (!isBuffered()) {
 			return;
 		}

@@ -11,7 +11,7 @@ import de.neuland.jade4j.template.JadeTemplate;
 public class DoctypeNode extends Node {
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		String name = getValue();
 		if (name == null) {
 			name = "5";

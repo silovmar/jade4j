@@ -4,7 +4,6 @@ import de.neuland.jade4j.exceptions.ExpressionException;
 import de.neuland.jade4j.expression.ExpressionHandler;
 import de.neuland.jade4j.model.JadeModel;
 import de.neuland.jade4j.parser.node.ExpressionString;
-import de.neuland.jade4j.parser.node.Node;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,7 +55,7 @@ public class Utils {
 		return result;
 	}
 
-	public static String interpolate(List<Object> prepared, JadeModel model, ExpressionHandler expressionHandler, Node parent) throws ExpressionException {
+	public static String interpolate(List<Object> prepared, JadeModel model, ExpressionHandler expressionHandler) throws ExpressionException {
 		StringBuffer result = new StringBuffer();
 
 		for (Object entry : prepared) {
@@ -65,7 +64,7 @@ public class Utils {
 			} else if (entry instanceof ExpressionString) {
 				ExpressionString expression = (ExpressionString) entry;
 				String stringValue = "";
-				String value = expressionHandler.evaluateStringExpression(expression.getValue(), model, parent);
+				String value = expressionHandler.evaluateStringExpression(expression.getValue(), model);
 				if (value != null) {
 					stringValue = value;
 				}
@@ -83,7 +82,7 @@ public class Utils {
 		return StringEscapeUtils.escapeHtml4(string);
 	}
 
-	public static String interpolate(String string, JadeModel model, boolean escape, ExpressionHandler expressionHandler, Node parent) throws ExpressionException {
-		return interpolate(prepareInterpolate(string, escape), model, expressionHandler, parent);
+	public static String interpolate(String string, JadeModel model, boolean escape, ExpressionHandler expressionHandler) throws ExpressionException {
+		return interpolate(prepareInterpolate(string, escape), model, expressionHandler);
 	}
 }

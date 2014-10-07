@@ -11,8 +11,8 @@ public class CaseConditionNode extends Node {
 	private boolean defaultNode = false;
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
-		block.execute(writer, model, template, expressionHandler, this);
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
+		block.execute(writer, model, template, expressionHandler);
 	}
 
 	public void setDefault(boolean defaultNode) {

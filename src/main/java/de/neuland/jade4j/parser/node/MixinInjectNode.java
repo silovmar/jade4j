@@ -14,7 +14,7 @@ public class MixinInjectNode extends AttributedNode {
 	protected List<String> arguments = new ArrayList<String>();
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		MixinNode mixin = model.getMixin(getName());
 		if (mixin == null) {
 			throw new JadeCompilerException(this, template.getTemplateLoader(), "mixin " + getName() + " is not defined");
@@ -37,9 +37,9 @@ public class MixinInjectNode extends AttributedNode {
 
 		model.pushScope();
 
-		writeVariables(model, mixin, template, expressionHandler, parent);
+		writeVariables(model, mixin, template, expressionHandler);
 		writeAttributes(model, mixin, template);
-		mixin.getBlock().execute(writer, model, template, expressionHandler, this);
+		mixin.getBlock().execute(writer, model, template, expressionHandler);
 
 		model.popScope();
 
@@ -65,7 +65,7 @@ public class MixinInjectNode extends AttributedNode {
 		return result;
 	}
 
-	private void writeVariables(JadeModel model, MixinNode mixin, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) {
+	private void writeVariables(JadeModel model, MixinNode mixin, JadeTemplate template, ExpressionHandler expressionHandler) {
 		List<String> names = mixin.getArguments();
 		List<String> values = arguments;
 		if (names == null) {
@@ -79,7 +79,7 @@ public class MixinInjectNode extends AttributedNode {
 			}
 			if (value != null) {
 				try {
-					value = expressionHandler.evaluateExpression(values.get(i), model, parent);
+					value = expressionHandler.evaluateExpression(values.get(i), model);
 				} catch (Throwable e) {
 					throw new JadeCompilerException(this, template.getTemplateLoader(), e);
 				}

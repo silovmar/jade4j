@@ -10,10 +10,10 @@ import de.neuland.jade4j.template.JadeTemplate;
 public class AssigmentNode extends Node {
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		Object result;
 		try {
-			result = expressionHandler.evaluateExpression(value, model, parent);
+			result = expressionHandler.evaluateExpression(value, model);
 		} catch (ExpressionException e) {
 			throw new JadeCompilerException(this, template.getTemplateLoader(), e);
 		}

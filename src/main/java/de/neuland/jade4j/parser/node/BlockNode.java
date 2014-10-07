@@ -12,9 +12,9 @@ public class BlockNode extends Node {
 	private BlockNode yieldBlock;
 	private String mode;
 
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		for (Node node : getNodes()) {
-			node.execute(writer, model, template, expressionHandler, this);
+			node.execute(writer, model, template, expressionHandler);
 		}
 	}
 

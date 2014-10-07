@@ -9,11 +9,11 @@ import de.neuland.jade4j.template.JadeTemplate;
 public class MixinNode extends MixinInjectNode {
 
     @Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		if (hasBlock()) {
 			model.setMixin(getName(), this);
 		} else {
-			super.execute(writer, model, template, expressionHandler, parent);
+			super.execute(writer, model, template, expressionHandler);
 		}
 	}
 	

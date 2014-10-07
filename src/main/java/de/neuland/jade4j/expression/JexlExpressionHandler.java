@@ -2,7 +2,6 @@ package de.neuland.jade4j.expression;
 
 import de.neuland.jade4j.exceptions.ExpressionException;
 import de.neuland.jade4j.model.JadeModel;
-import de.neuland.jade4j.parser.node.Node;
 
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JadeJexlEngine;
@@ -25,12 +24,12 @@ public class JexlExpressionHandler implements ExpressionHandler {
     }
 
     @Override
-    public Boolean evaluateBooleanExpression(String expression, JadeModel model, Node callNode) throws ExpressionException {
-        return BooleanUtil.convert(evaluateExpression(expression, model, callNode));
+    public Boolean evaluateBooleanExpression(String expression, JadeModel model) throws ExpressionException {
+        return BooleanUtil.convert(evaluateExpression(expression, model));
     }
 
     @Override
-    public Object evaluateExpression(String expression, JadeModel model, Node callNode) throws ExpressionException {
+    public Object evaluateExpression(String expression, JadeModel model) throws ExpressionException {
         try {
             Expression e = jexl.createExpression(expression);
             return e.evaluate(new MapContext(model));
@@ -40,8 +39,8 @@ public class JexlExpressionHandler implements ExpressionHandler {
     }
 
     @Override
-    public String evaluateStringExpression(String expression, JadeModel model, Node callNode) throws ExpressionException {
-        Object result = evaluateExpression(expression, model, callNode);
+    public String evaluateStringExpression(String expression, JadeModel model) throws ExpressionException {
+        Object result = evaluateExpression(expression, model);
         return result == null ? "" : result.toString();
     }
 

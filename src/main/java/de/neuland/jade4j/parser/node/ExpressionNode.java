@@ -23,9 +23,9 @@ public class ExpressionNode extends Node {
 	}
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
 		try {
-			Object result = expressionHandler.evaluateStringExpression(getValue(), model);
+			Object result = expressionHandler.evaluateStringExpression(getValue(), model, parent);
 			if (result == null || !buffer) {
 				return;
 			}
@@ -37,7 +37,7 @@ public class ExpressionNode extends Node {
 
             if (hasBlock()) {
                 writer.increment();
-                block.execute(writer, model, template, expressionHandler);
+                block.execute(writer, model, template, expressionHandler, this);
                 writer.decrement();
                 writer.newline();
             }

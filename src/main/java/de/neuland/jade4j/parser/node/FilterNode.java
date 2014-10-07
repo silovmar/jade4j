@@ -30,14 +30,14 @@ public class FilterNode extends Node {
 	}
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
 		Filter filter = model.getFilter(getValue());
         String result = textBlock.getValue();
 		if (filter != null) {
             result = filter.convert(result, attributes, model);
 		}
 		try {
-			result = Utils.interpolate(result, model, false, expressionHandler);
+			result = Utils.interpolate(result, model, false, expressionHandler, parent);
 		} catch (ExpressionException e) {
 			throw new JadeCompilerException(this, template.getTemplateLoader(), e);
 		}

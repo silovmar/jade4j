@@ -20,10 +20,10 @@ public class EachNode extends Node {
 	private Node elseNode;
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
 		Object result;
 		try {
-			result = expressionHandler.evaluateExpression(getCode(), model);
+			result = expressionHandler.evaluateExpression(getCode(), model, parent);
 		} catch (ExpressionException e) {
 			throw new JadeCompilerException(this, template.getTemplateLoader(), e);
 		}
@@ -58,7 +58,7 @@ public class EachNode extends Node {
 		while (iterator.hasNext()) {
 			model.put(getValue(), iterator.next());
 			model.put(getKey(), index);
-			getBlock().execute(writer, model, template, expressionHandler);
+			getBlock().execute(writer, model, template, expressionHandler, this);
 			index++;
 		}
 	}
@@ -72,13 +72,13 @@ public class EachNode extends Node {
 		for (String key : keys) {
 			model.put(getValue(), result.get(key));
 			model.put(getKey(), key);
-			getBlock().execute(writer, model, template, expressionHandler);
+			getBlock().execute(writer, model, template, expressionHandler, this);
 		}
 	}
 
 	private void executeElseNode(JadeModel model, IndentWriter writer, JadeTemplate template, ExpressionHandler expressionHandler) {
 		if (elseNode != null) {
-			elseNode.execute(writer, model, template, expressionHandler);
+			elseNode.execute(writer, model, template, expressionHandler, this);
 		}
 	}
 

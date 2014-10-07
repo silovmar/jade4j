@@ -9,7 +9,7 @@ import de.neuland.jade4j.template.JadeTemplate;
 public class LiteralNode extends Node {
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
 		writer.append(value);
 	}
 

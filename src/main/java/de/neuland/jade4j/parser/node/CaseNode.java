@@ -15,11 +15,11 @@ public class CaseNode extends Node {
     private List<CaseConditionNode> caseConditionNodes = new LinkedList<CaseConditionNode>();
 
 	@Override
-	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
+	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler, Node parent) throws JadeCompilerException {
 		try {
 			for (CaseConditionNode caseConditionNode : caseConditionNodes) {
-				if (caseConditionNode.isDefault() || checkCondition(model, caseConditionNode, expressionHandler)) {
-					caseConditionNode.execute(writer, model, template, expressionHandler);
+				if (caseConditionNode.isDefault() || checkCondition(model, caseConditionNode, expressionHandler, parent)) {
+					caseConditionNode.execute(writer, model, template, expressionHandler, this);
 					break;
 				}
 			}
@@ -28,8 +28,8 @@ public class CaseNode extends Node {
 		}
 	}
 
-	private Boolean checkCondition(JadeModel model, Node caseConditionNode, ExpressionHandler expressionHandler) throws ExpressionException {
-		return expressionHandler.evaluateBooleanExpression(value + " == " + caseConditionNode.getValue(), model);
+	private Boolean checkCondition(JadeModel model, Node caseConditionNode, ExpressionHandler expressionHandler, Node parent) throws ExpressionException {
+		return expressionHandler.evaluateBooleanExpression(value + " == " + caseConditionNode.getValue(), model, parent);
 	}
 
 	public void setConditions(List<CaseConditionNode> caseConditionNodes) {

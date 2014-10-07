@@ -28,7 +28,7 @@ public class Compiler {
 	public void compile(JadeModel model, Writer w, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		IndentWriter writer = new IndentWriter(w);
 		writer.setUseIndent(prettyPrint);
-		rootNode.execute(writer, model, template, expressionHandler);
+		rootNode.execute(writer, model, template, expressionHandler, rootNode);
 	}
 
 	public void setPrettyPrint(boolean prettyPrint) {

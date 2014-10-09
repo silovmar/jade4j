@@ -1,7 +1,7 @@
 package de.neuland.jade4j.exceptions;
 
 import de.neuland.jade4j.Jade4J;
-import de.neuland.jade4j.expression.ExpressionHandler;
+import de.neuland.jade4j.expression.JexlExpressionHandler;
 import de.neuland.jade4j.template.TemplateLoader;
 
 import java.io.BufferedReader;
@@ -60,10 +60,11 @@ public abstract class JadeException extends RuntimeException {
 	}
 
 	public String toHtmlString() {
-		return toHtmlString(null, null);
+		return toHtmlString(null);
 	}
 
-	public String toHtmlString(String generatedHtml, ExpressionHandler expressionHandler) {
+    //TODO silovsky: metoda volana ze spring-jade
+	public String toHtmlString(String generatedHtml) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("filename", filename);
 		model.put("linenumber", lineNumber);
@@ -77,7 +78,7 @@ public abstract class JadeException extends RuntimeException {
 		try {
 			URL url = JadeException.class.getResource("/error.jade");
             //TODO silovsky: upravit - musi se prevolat existujici expression handler
-			return Jade4J.render(url, model, true, expressionHandler);
+			return Jade4J.render(url, model, true, new JexlExpressionHandler());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -19,16 +19,16 @@ public class JadeExceptionTest {
 	public void test() throws Exception {
 		String errorJade = TestFileHelper.getCompilerResourcePath("exceptions/error.jade");
 		String exceptionHtml = TestFileHelper.getCompilerResourcePath("exceptions/error.html");
-        JexlExpressionHandler expressionHandler = new JexlExpressionHandler();
         try {
-            Jade4J.render(errorJade, new HashMap<String, Object>(), expressionHandler);
+            //TODO silovsky: volani stareho expression handleru
+            Jade4J.render(errorJade, new HashMap<String, Object>(), new JexlExpressionHandler());
 			fail();
 		} catch (JadeException e) {
 			assertTrue(e.getMessage().startsWith("unable to evaluate [non.existing.query()]"));
 			assertEquals(9, e.getLineNumber());
 			assertEquals(errorJade, e.getFilename());
 			String expectedHtml = readFile(exceptionHtml);
-			String html = e.toHtmlString("<html><head><title>broken", expressionHandler);
+			String html = e.toHtmlString("<html><head><title>broken");
 			assertEquals(removeAbsolutePath(expectedHtml), removeAbsolutePath(html));
 		}
 	}

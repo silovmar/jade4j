@@ -29,7 +29,7 @@ public class ConditionalNode extends Node {
 	}
 
 	private boolean checkCondition(JadeModel model, String condition, ExpressionHandler expressionHandler) throws ExpressionException {
-		Boolean value = expressionHandler.evaluateBooleanExpression(condition, model, this);
+		Boolean value = expressionHandler.evaluateBooleanExpression(condition, model);
 		return (value == null) ? false : value;
 	}
 

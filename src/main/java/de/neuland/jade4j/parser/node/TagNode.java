@@ -166,7 +166,7 @@ public class TagNode extends AttributedNode {
 
     private Object evaluateExpression(ExpressionString attribute, JadeModel model, ExpressionHandler expressionHandler) throws ExpressionException {
         String expression = ((ExpressionString) attribute).getValue();
-        Object result = expressionHandler.evaluateExpression(expression, model, this);
+        Object result = expressionHandler.evaluateExpression(expression, model);
         if (result instanceof ExpressionString) {
             return evaluateExpression((ExpressionString) result, model, expressionHandler);
         }
@@ -179,7 +179,7 @@ public class TagNode extends AttributedNode {
         }
         List<Object> prepared = preparedAttributeValues.get(name);
         try {
-            return Utils.interpolate(prepared, model, expressionHandler, this);
+            return Utils.interpolate(prepared, model, expressionHandler);
         } catch (ExpressionException e) {
             throw new JadeCompilerException(this, template.getTemplateLoader(), e);
         }

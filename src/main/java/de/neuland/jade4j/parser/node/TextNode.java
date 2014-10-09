@@ -37,7 +37,7 @@ public class TextNode extends Node {
 	@Override
 	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		try {
-			String string = Utils.interpolate(preparedValue, model, expressionHandler, this);
+			String string = Utils.interpolate(preparedValue, model, expressionHandler);
 			writer.append(string);
 		} catch (ExpressionException e) {
 			throw new JadeCompilerException(this, template.getTemplateLoader(), e);

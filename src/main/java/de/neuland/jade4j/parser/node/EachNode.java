@@ -23,7 +23,7 @@ public class EachNode extends Node {
 	public void execute(IndentWriter writer, JadeModel model, JadeTemplate template, ExpressionHandler expressionHandler) throws JadeCompilerException {
 		Object result;
 		try {
-			result = expressionHandler.evaluateExpression(getCode(), model, this);
+			result = expressionHandler.evaluateExpression(getCode(), model);
 		} catch (ExpressionException e) {
 			throw new JadeCompilerException(this, template.getTemplateLoader(), e);
 		}

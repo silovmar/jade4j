@@ -79,7 +79,7 @@ public class MixinInjectNode extends AttributedNode {
 			}
 			if (value != null) {
 				try {
-					value = expressionHandler.evaluateExpression(values.get(i), model, this);
+					value = expressionHandler.evaluateExpression(values.get(i), model);
 				} catch (Throwable e) {
 					throw new JadeCompilerException(this, template.getTemplateLoader(), e);
 				}

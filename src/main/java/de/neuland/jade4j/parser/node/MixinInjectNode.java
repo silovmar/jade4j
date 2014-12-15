@@ -1,13 +1,13 @@
 package de.neuland.jade4j.parser.node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.neuland.jade4j.compiler.IndentWriter;
 import de.neuland.jade4j.exceptions.JadeCompilerException;
 import de.neuland.jade4j.expression.ExpressionHandler;
 import de.neuland.jade4j.model.JadeModel;
 import de.neuland.jade4j.template.JadeTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MixinInjectNode extends AttributedNode {
 
@@ -36,11 +36,10 @@ public class MixinInjectNode extends AttributedNode {
 		}
 
 		model.pushScope();
-
+		model.put("block", hasBlock());
 		writeVariables(model, mixin, template, expressionHandler);
 		writeAttributes(model, mixin, template);
 		mixin.getBlock().execute(writer, model, template, expressionHandler);
-
 		model.popScope();
 
 	}

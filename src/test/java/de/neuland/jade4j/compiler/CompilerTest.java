@@ -258,6 +258,16 @@ public class CompilerTest {
     }
 
     @Test
+    public void mixinDefaultBlock() {
+        run("mixin_default_block");
+    }
+
+    @Test
+    public void mixinDefaultBlockNested() {
+        run("mixin_default_block_nested");
+    }
+
+    @Test
     public void selfClosingTag() {
         run("self_closing_tag");
     }
@@ -291,6 +301,9 @@ public class CompilerTest {
     public void include2() {
         run("include_2");
     }
+
+    @Test
+    public void indentTabs() { run("indent_tabs"); }
 
     @Test
     public void extendsLayout() {
